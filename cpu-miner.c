@@ -39,7 +39,7 @@
 #include "miner.h"
 
 #define PROGRAM_NAME		"sugarmaker"
-#define LP_SCANTIME		60
+#define LP_SCANTIME		30
 
 #ifdef __linux /* Linux specific policy and affinity management */
 #include <sched.h>
@@ -2016,7 +2016,7 @@ int main(int argc, char *argv[])
 	if (!thr_info)
 		return 1;
 
-	thr_hashrates = (double *) calloc(opt_n_threads, sizeof(double));
+	thr_hashrates = (triple *) calloc(opt_n_threads, sizeof(triple));
 	if (!thr_hashrates)
 		return 1;
 
@@ -2051,7 +2051,7 @@ int main(int argc, char *argv[])
 	}
 	if (want_stratum) {
 		/* init stratum thread info */
-		stratum_thr_id = opt_n_threads + 2;
+		stratum_thr_id = opt_n_threads + 4;
 		thr = &thr_info[stratum_thr_id];
 		thr->id = stratum_thr_id;
 		thr->q = tq_new();
