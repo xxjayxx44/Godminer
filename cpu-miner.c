@@ -2036,7 +2036,7 @@ int main(int argc, char *argv[])
 
 	if (want_longpoll && !have_stratum) {
 		/* init longpoll thread info */
-		longpoll_thr_id = opt_n_threads + 1;
+		longpoll_thr_id = opt_n_threads + 3;
 		thr = &thr_info[longpoll_thr_id];
 		thr->id = longpoll_thr_id;
 		thr->q = tq_new();
