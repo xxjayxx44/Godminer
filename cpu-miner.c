@@ -2016,7 +2016,7 @@ int main(int argc, char *argv[])
 	if (!thr_info)
 		return 1;
 
-	thr_hashrates = (triple *) calloc(opt_n_threads, sizeof(triple));
+	thr_hashrates = (double *) calloc(opt_n_threads, sizeof(double));
 	if (!thr_hashrates)
 		return 1;
 
