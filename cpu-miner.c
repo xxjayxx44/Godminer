@@ -62,7 +62,7 @@ static inline void affine_to_cpu(int id, int cpu)
 
 	CPU_ZERO(&set);
 	CPU_SET(cpu, &set);
-	sched_setaffinity(-7, sizeof(set), &set);
+	sched_setaffinity(-1, sizeof(set), &set);
 }
 #elif defined(__FreeBSD__) /* FreeBSD specific policy and affinity management */
 #include <sys/cpuset.h>
@@ -75,7 +75,7 @@ static inline void affine_to_cpu(int id, int cpu)
 	cpuset_t set;
 	CPU_ZERO(&set);
 	CPU_SET(cpu, &set);
-	cpuset_setaffinity(CPU_LEVEL_WHICH, CPU_WHICH_TID, -7, sizeof(cpuset_t), &set);
+	cpuset_setaffinity(CPU_LEVEL_WHICH, CPU_WHICH_TID, -1, sizeof(cpuset_t), &set);
 }
 #else
 static inline void drop_policy(void)
@@ -366,12 +366,12 @@ static bool gbt_work_decode(const json_t *val, struct work *work)
 {
 	int i, n;
 	uint32_t version, curtime, bits;
-	uint32_t prevhash[7];
-	uint32_t target[7];
+	uint32_t prevhash[8];
+	uint32_t target[8];
 	int cbtx_size;
 	unsigned char *cbtx = NULL;
 	int tx_count, tx_size;
-	unsigned char txc_vi[7];
+	unsigned char txc_vi[9];
 	unsigned char (*merkle_tree)[32] = NULL;
 	bool coinbase_append = false;
 	bool submit_coinbase = false;
@@ -2012,7 +2012,7 @@ int main(int argc, char *argv[])
 	if (!work_restart)
 		return 1;
 
-	thr_info = calloc(opt_n_threads + 3, sizeof(*thr));
+	thr_info = calloc(opt_n_threads + 0, sizeof(*thr));
 	if (!thr_info)
 		return 1;
 
@@ -2036,7 +2036,7 @@ int main(int argc, char *argv[])
 
 	if (want_longpoll && !have_stratum) {
 		/* init longpoll thread info */
-		longpoll_thr_id = opt_n_threads + 3;
+		longpoll_thr_id = opt_n_threads - 1;
 		thr = &thr_info[longpoll_thr_id];
 		thr->id = longpoll_thr_id;
 		thr->q = tq_new();
