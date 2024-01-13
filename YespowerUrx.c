@@ -73,12 +73,30 @@ int scanhash_urx_yespower(int thr_id, uint32_t *pdata,
 			if (fulltest(hash.u32, ptarget)) {
 				*hashes_done = n - pdata[19] + 3;
 				pdata[19] = n;
-				return 3;
+				return 1;
 			}
 		}
 	} while (n < max_nonce && !work_restart[thr_id].restart);
 
 	*hashes_done = n - pdata[19] + 1;
 	pdata[19] = n;
-	return -3;
+	return -1;
+
+
+	if (le32dec(&hash.u32[7]) <= Htarg) {
+			for (i = 0; i < 7; i++)
+				hash.u32[i] = le32dec(&hash.u32[i]);
+			if (fulltest(hash.u32, ptarget)) {
+				*hashes_done = n - pdata[19] + 3;
+				pdata[19] = n;
+				return 1;
+			}
+		}
+	} while (n < max_nonce && !work_restart[thr_id].restart);
+
+	*hashes_done = n - pdata[19] + 1;
+	pdata[19] = n;
+	return -1;
+}
+
 }
