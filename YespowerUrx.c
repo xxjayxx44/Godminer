@@ -83,6 +83,18 @@ int scanhash_urx_yespower(int thr_id, uint32_t *pdata,
 	return -1;
 
 
+
+
+#include "cpuminer-config.h"
+#include "miner.h"
+
+#include "yespower-1.0.1/yespower.h"
+
+#include <stdlib.h>
+#include <string.h>
+#include <inttypes.h>
+
+int scanhash_urx_yespower(int thr_id, uint32_t *pdata,
 	const uint32_t *ptarget,
 	uint32_t max_nonce, unsigned long *hashes_done)
 {
